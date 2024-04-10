@@ -26,15 +26,20 @@
             zoom: 13,
             style: 'mapbox://styles/mapbox/streets-v11',
         });
+
+        
         await new Promise(resolve => map.on("load", resolve));
         map.addSource("bostonRoute", {
             type: "geojson",
             data: "https://bostonopendata-boston.opendata.arcgis.com/datasets/boston::existing-bike-network-2022.geojson?outSR=%7B%22latestWkid%22%3A3857%2C%22wkid%22%3A102100%7D",
         });
+
+
         map.addSource("cambridgeRoute", {
             type: "geojson",
             data: "https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson",
         });
+
         map.addLayer({
             id: "bostonBikeLanes", // A name for our layer (up to you)
             type: "line", // one of the supported layer types, e.g. line, circle, etc.
@@ -45,6 +50,8 @@
                 "line-opacity":.40
             },
         });
+
+
         map.addLayer({
             id: "cambridgeBikeLanes", // A name for our layer (up to you)
             type: "line", // one of the supported layer types, e.g. line, circle, etc.
@@ -55,6 +62,11 @@
                 "line-opacity": .40
             },
         });
+
+
+
+
+
         stations = await d3.csv("https://vis-society.github.io/labs/8/data/bluebikes-stations.csv");
         let TRIP_DATA_URL = "https://vis-society.github.io/labs/8/data/bluebikes-traffic-2024-03.csv";
         trips = await d3.csv(TRIP_DATA_URL).then(trips => {
@@ -68,6 +80,9 @@
             }
             return trips;
         });
+
+
+
         arrivals = d3.rollup(trips, v => v.length, d => d.end_station_id);
         departures = d3.rollup(trips, v => v.length, d => d.start_station_id);
         stations = stations.map(station => {
@@ -115,9 +130,17 @@
         station.totalTraffic = station.departures + station.arrivals;
         return station;
     });
+
 </script>
+
+
+
+
 <h1>Boston Bike Project</h1>
 <p>This interactive map of Boston shows bike traffic times during different hours of the day. </p>
+
+
+
 <header class="timescrubb">
     Filter by time:
     <input type="range" min="-1" max="1440" bind:value={timeFilter}>
@@ -149,6 +172,11 @@
     <div style="--departure-ratio: 0.5">Balanced</div>
     <div style="--departure-ratio: 0">More arrivals</div>
 </div>
+
+
+
+
+
 <style>
     @import url("$lib/global.css");
     :root {
